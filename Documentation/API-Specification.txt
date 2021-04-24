@@ -1,0 +1,18 @@
+Everything is secured with JWT
+
+/User
++login
++register
++retrieveUsers (optional parameters for filtering)
+
+/MoneyFlow
++withdraw (parameter "amount")
++deposit (parameter "amount")
++transfer (parameters "to", "from" and "amount")
++retrieveHistory (parameter "accountID")
+
+/Account
++openCurrentAccount
++openSavingsAccount
++closeAccount
++retrieveAccounts (parameter "userID")
