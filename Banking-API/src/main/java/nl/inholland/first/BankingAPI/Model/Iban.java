@@ -1,4 +1,14 @@
 package nl.inholland.first.BankingAPI.Model;
 
-public enum Iban {
+public class Iban {
+
+    private String Countrycode;
+
+    private long id;
+
+    private Boolean isvaldiban;
+
+
+
+
 }
