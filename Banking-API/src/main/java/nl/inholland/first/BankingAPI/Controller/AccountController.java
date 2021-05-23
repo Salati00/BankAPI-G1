@@ -1,6 +1,5 @@
 package nl.inholland.first.BankingAPI.Controller;
 
-import nl.inholland.first.BankingAPI.Model.Iban;
 import nl.inholland.first.BankingAPI.Service.AccountService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
