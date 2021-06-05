@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -43,9 +41,6 @@ public class User   {
 
   @JsonProperty("Role")
   private Role role = null;
-
-  @ElementCollection(fetch = FetchType.EAGER)
-  List<Role> roles;
 
   public User id(Long id) {
     this.id = id;
