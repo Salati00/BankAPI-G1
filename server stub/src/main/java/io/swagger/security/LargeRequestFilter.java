@@ -15,7 +15,7 @@ public class LargeRequestFilter implements Filter {
     private final Logger log = Logger.getLogger(this.getClass().getName());
 
 
-    private int maxSize = 100;
+    private int maxSize = 1000;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
