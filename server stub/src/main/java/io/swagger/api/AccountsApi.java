@@ -57,7 +57,7 @@ public interface AccountsApi {
         @ApiResponse(responseCode = "404", description = "ID not found") })
     @RequestMapping(value = "/Accounts/{iban}",
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteaccount(@Parameter(in = ParameterIn.PATH, description = "The ID of the account that needs to be deleted", required=true, schema=@Schema()) @PathVariable("iban") String iban);
+    ResponseEntity<Void> deleteaccount(@Parameter(in = ParameterIn.PATH, description = "The ID of the account that needs to be deleted", required=true, schema=@Schema()) @PathVariable("iban") String iban) throws ApiException;
 
 
     @Operation(summary = "Deposits money", description = "Deposits money into logged in account", security = {

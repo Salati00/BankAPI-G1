@@ -3,6 +3,7 @@ package io.swagger.api;
 import io.swagger.model.Account;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -43,20 +44,27 @@ public class AccountsApiController implements AccountsApi {
 
     private final HttpServletRequest request;
 
+    private AccountService service;
+
+
     @org.springframework.beans.factory.annotation.Autowired
-    public AccountsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public AccountsApiController(ObjectMapper objectMapper, HttpServletRequest request , AccountService service) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.service = service;
     }
 
     public ResponseEntity<Void> createcurrentaccount(@Parameter(in = ParameterIn.DEFAULT, description = "Created account object", required=true, schema=@Schema()) @Valid @RequestBody Account body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        service.createAccount(body);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> deleteaccount(@Parameter(in = ParameterIn.PATH, description = "The ID of the account that needs to be deleted", required=true, schema=@Schema()) @PathVariable("iban") String iban) {
+    public ResponseEntity<Void> deleteaccount(@Parameter(in = ParameterIn.PATH, description = "The ID of the account that needs to be deleted", required=true, schema=@Schema()) @PathVariable("iban") String iban) throws ApiException {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        service.deleteAccount(iban);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+
     }
 
     public ResponseEntity<Void> depositMoney(@Parameter(in = ParameterIn.DEFAULT, description = "Amount of money to deposit", schema=@Schema()) @Valid @RequestBody BigDecimal body) {
