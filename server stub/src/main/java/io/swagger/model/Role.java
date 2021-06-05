@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * Gets or Sets Role
  */
-public enum Role {
+public enum Role implements GrantedAuthority {
   USER("User"),
     EMPLOYEE("Employee");
 
@@ -35,5 +36,10 @@ public enum Role {
       }
     }
     return null;
+  }
+
+  @Override
+  public String getAuthority() {
+    return name();
   }
 }
