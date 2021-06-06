@@ -36,4 +36,9 @@ public enum Role {
     }
     return null;
   }
+
+  //@Override
+  public String getAuthority(){
+    return name();
+  }
 }
