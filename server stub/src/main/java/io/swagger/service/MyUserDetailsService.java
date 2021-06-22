@@ -1,9 +1,11 @@
 package io.swagger.service;
 
+import io.swagger.model.User;
 import io.swagger.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -11,8 +13,6 @@ import java.util.Collection;
 @Service
 public class MyUserDetailsService implements UserDetails {
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
