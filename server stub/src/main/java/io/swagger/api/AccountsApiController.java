@@ -4,6 +4,7 @@ import io.swagger.model.Account;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -44,22 +45,25 @@ public class AccountsApiController implements AccountsApi {
 
     private final HttpServletRequest request;
 
-
+    private AccountService accountservice;
 
 
     @org.springframework.beans.factory.annotation.Autowired
-    public AccountsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public AccountsApiController(ObjectMapper objectMapper, HttpServletRequest request , AccountService accountservice) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.accountservice = accountservice;
     }
 
     public ResponseEntity<Void> createcurrentaccount(@Parameter(in = ParameterIn.DEFAULT, description = "Created account object", required=true, schema=@Schema()) @Valid @RequestBody Account body) {
         String accept = request.getHeader("Accept");
+        accountservice.createAccount(body);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteaccount(@Parameter(in = ParameterIn.PATH, description = "The ID of the account that needs to be deleted", required=true, schema=@Schema()) @PathVariable("iban") String iban) throws ApiException {
         String accept = request.getHeader("Accept");
+        accountservice.deleteAccount(iban);
         return new ResponseEntity<Void>(HttpStatus.OK);
 
     }
@@ -71,16 +75,8 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<Account> getAccountByIban(@Parameter(in = ParameterIn.PATH, description = "Iban of account to return", required=true, schema=@Schema()) @PathVariable("Iban") String iban) {
         String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Account>(objectMapper.readValue("{\n  \"User\" : {\n    \"Transactionlimit\" : 10000,\n    \"Role\" : \"User\",\n    \"firstName\" : \"John\",\n    \"lastName\" : \"Doe\",\n    \"phone\" : \"0612345678\",\n    \"id\" : 123,\n    \"email\" : \"JohnDoe123@hotmail.com\",\n    \"username\" : \"JohnDoe123\"\n  },\n  \"balance\" : 5000,\n  \"Absolutelimit\" : 0,\n  \"iban\" : \"NL91 ABNA 0417 1643 00\",\n  \"dailylimit\" : 10000,\n  \"AccountType\" : \"Currentaccount\"\n}", Account.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+        return new ResponseEntity<Account>(accountservice.getAccountByIban(iban),HttpStatus.OK);
 
-        return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> updateAccount(@Parameter(in = ParameterIn.DEFAULT, description = "Updating an existing account", required=true, schema=@Schema()) @Valid @RequestBody Account body) {
